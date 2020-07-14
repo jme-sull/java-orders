@@ -1,9 +1,11 @@
 package local.jmesull.orders.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "agents")
+@Table(name = "AGENTS")
 public class Agent
 {
 
@@ -25,6 +27,9 @@ public class Agent
 
     @Column
     private String country;
+
+    @OneToMany
+    private List<Customer> customers = new ArrayList<>();
 
 
     public Agent()

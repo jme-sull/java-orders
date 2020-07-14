@@ -1,9 +1,11 @@
 package local.jmesull.orders.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "ORDERS")
 public class Order
 {
     @Id
@@ -16,10 +18,18 @@ public class Order
     @Column
     private double advanceamount;
 
-   //customer code - foregin key one to many
+    @ManyToOne
+    @JoinColumn(name = "custcode", nullable = false)
+    private Customer customer;
 
     @Column
     private String orderdescription;
+
+    @ManyToMany()
+    @JoinTable(name = "ORDERSPAYMENTS",
+        joinColumns = @JoinColumn(name = "ordnum"),
+        inverseJoinColumns = @JoinColumn(name = "paymentid"))
+    private Set<Payment> payments = new HashSet<>();
 
     public Order()
     {
@@ -28,10 +38,12 @@ public class Order
     public Order(
         double ordamount,
         double advanceamount,
+        Customer customer,
         String orderdescription)
     {
         this.ordamount = ordamount;
         this.advanceamount = advanceamount;
+        this.customer = customer;
         this.orderdescription = orderdescription;
     }
 
@@ -73,5 +85,25 @@ public class Order
     public void setOrderdescription(String orderdescription)
     {
         this.orderdescription = orderdescription;
+    }
+
+    public Customer getCustomer()
+    {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer)
+    {
+        this.customer = customer;
+    }
+
+    public Set<Payment> getPayments()
+    {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments)
+    {
+        this.payments = payments;
     }
 }

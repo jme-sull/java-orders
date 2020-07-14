@@ -1,9 +1,11 @@
 package local.jmesull.orders.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "CUSTOMERS")
 public class Customer
 {
     @Id
@@ -40,7 +42,13 @@ public class Customer
     @Column
     private String phone;
 
-    //agent code here
+    @ManyToOne
+    @JoinColumn(name = "agentcode", nullable = false)
+    private Agent agent;
+
+
+    @OneToMany
+    private List<Order> orders = new ArrayList<>();
 
 
     public Customer()
@@ -57,7 +65,8 @@ public class Customer
         double receiveamt,
         double paymentamt,
         double outstandingamt,
-        String phone)
+        String phone,
+        Agent agent)
     {
         this.custname = custname;
         this.custcity = custcity;
@@ -69,6 +78,7 @@ public class Customer
         this.paymentamt = paymentamt;
         this.outstandingamt = outstandingamt;
         this.phone = phone;
+        this.agent = agent;
     }
 
     public long getCustcode()
@@ -179,5 +189,25 @@ public class Customer
     public void setPhone(String phone)
     {
         this.phone = phone;
+    }
+
+    public Agent getAgent()
+    {
+        return agent;
+    }
+
+    public void setAgent(Agent agent)
+    {
+        this.agent = agent;
+    }
+
+    public List<Order> getOrders()
+    {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders)
+    {
+        this.orders = orders;
     }
 }
