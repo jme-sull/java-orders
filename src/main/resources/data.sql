@@ -1,11 +1,17 @@
 DELETE
-FROM orders;
+from ORDERSPAYMENTS;
 
 DELETE
-FROM customers;
+from PAYMENTS;
 
 DELETE
-FROM agents;
+FROM ORDERS;
+
+DELETE
+FROM CUSTOMERS;
+
+DELETE
+FROM AGENTS;
 
 INSERT INTO AGENTS (agentcode, agentname, workingarea, commission, phone, country)
             VALUES (1, 'Ramasundar', 'Bangalore', 0.15, '077-25814763', ''),
