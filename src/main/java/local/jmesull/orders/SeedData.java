@@ -1,6 +1,6 @@
 package local.jmesull.orders;
 
-//import com.github.javafaker.Faker;
+import com.github.javafaker.Faker;
 import local.jmesull.orders.models.Agent;
 import local.jmesull.orders.models.Order;
 import local.jmesull.orders.models.Customer;
@@ -10,6 +10,7 @@ import local.jmesull.orders.repositories.OrderRepository;
 import local.jmesull.orders.repositories.AgentRepository;
 import local.jmesull.orders.repositories.CustomerRepository;
 import local.jmesull.orders.repositories.PaymentRepository;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +25,7 @@ import java.util.Set;
 
 @Transactional
 @Component
-public class SeedData implements CommandLineRunner
+public class SeedData<custNamesSet> implements CommandLineRunner
 {
     /**
      * Connects the customer table to this SeedData method
@@ -59,6 +60,8 @@ public class SeedData implements CommandLineRunner
      *
      * @param args The parameter is required by the parent interface but is not used in this process.
      */
+
+
     @Transactional
     @Override
     public void run(String[] args) throws Exception
@@ -534,5 +537,22 @@ public class SeedData implements CommandLineRunner
         ordersrepos.save(o10);
         ordersrepos.save(o11);
         ordersrepos.save(o12);
+
+
+        Faker nameFaker = new Faker(new Locale("en-US"));
+        Set<String> custNamesSet = new HashSet<>();
+        for (int i = 0; i < 100; i++)
+        {
+            custNamesSet.add(nameFaker.name().fullName());
+        }
+
+        for (String custName : custNamesSet)
+        {
+            Customer customer = new Customer();
+            customer.setCustname(custName);
+            customer.setAgent(a05);
+
+            custrepos.save(customer);
+        };
     }
 }
